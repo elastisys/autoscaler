@@ -1,0 +1,7 @@
+{
+    "systemHistorian": {
+	"openTsdbHost": "1.2.3.4",
+	"openTsdbPort": 4242,
+	"pushInterval": { "time": 5, "unit": "seconds" }
+    }
+}

@@ -1,0 +1,12 @@
+{ 
+  "alerter": {
+    "duplicateSuppression": {"time": 3, "unit": "minutes"},
+    "http": [
+        {       
+            "destinationUrls": ["http://localhost:8000/endpoint"],
+            "severityFilter": "WARN|ERROR", 
+            "auth": null
+        }
+    ]
+  }
+}

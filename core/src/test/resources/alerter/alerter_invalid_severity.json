@@ -1,0 +1,11 @@
+{ 
+  "alerter": {
+    "http": [
+        {       
+            "destinationUrls": ["http://localhost:8000/endpoint"],
+            "severityFilter": "+WARN|ERROR", 
+            "auth": null
+        }
+    ]
+  }
+}

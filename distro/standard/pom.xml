@@ -1,0 +1,102 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.elastisys</groupId>
+    <artifactId>autoscaler.distro</artifactId>
+    <version>5.2.2-SNAPSHOT</version>
+  </parent>
+  <artifactId>autoscaler.distro.standard</artifactId>
+  <name>elastisys :: autoscaler :: distro :: standard</name>
+  <description>
+    Standard autoscaler server distribution.
+    This build module produces an all-in-one server executable jar file.
+    When executed, an embedded web server is started that publishes the 
+    REST API endpoint.      
+  </description>
+  <packaging>jar</packaging>
+
+  <properties>
+    <docker.image>elastisys/autoscaler-standard</docker.image>
+    <shade.mainClass>com.elastisys.autoscaler.server.Main</shade.mainClass>
+  </properties>
+
+  <dependencies>
+    <!-- The autoscaler and REST API server. -->
+    <dependency>
+      <groupId>com.elastisys</groupId>
+      <artifactId>autoscaler.server</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <!-- Predictor implementations to include -->
+    <dependency>
+      <groupId>com.elastisys</groupId>
+      <artifactId>autoscaler.predictors.reactive</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.elastisys</groupId>
+      <artifactId>autoscaler.predictors.rulebased</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <!-- Metric streamers to include -->
+    <dependency>
+      <groupId>com.elastisys</groupId>
+      <artifactId>autoscaler.metricstreamers.opentsdb</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.elastisys</groupId>
+      <artifactId>autoscaler.metricstreamers.cloudwatch</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.elastisys</groupId>
+      <artifactId>autoscaler.metricstreamers.ceilometer</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.elastisys</groupId>
+      <artifactId>autoscaler.metricstreamers.influxdb</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.elastisys</groupId>
+      <artifactId>autoscaler.metricstreamers.streamjoiner</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <!-- System historian implementations to include -->
+    <dependency>
+      <groupId>com.elastisys</groupId>
+      <artifactId>autoscaler.systemhistorians.opentsdb</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.elastisys</groupId>
+      <artifactId>autoscaler.systemhistorians.file</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.elastisys</groupId>
+      <artifactId>autoscaler.systemhistorians.influxdb</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Build a standalone executable jar file that embeds all classpath dependencies. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+      </plugin>
+
+      <!-- Builds a Docker image -->
+      <plugin>
+        <groupId>com.spotify</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+      </plugin>
+
+    </plugins>
+  </build>
+</project>

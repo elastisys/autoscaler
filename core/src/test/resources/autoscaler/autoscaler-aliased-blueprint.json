@@ -1,0 +1,8 @@
+{
+    "id": "autoscaler1",
+    "monitoringSubsystem": "StandardMonitoringSubsystem",
+    "alerter": "StandardAlerter",
+    "metronome": "StandardMetronome",
+    "predictionSubsystem": "StandardPredictionSubsystem",
+    "cloudPool": "StandardCloudPoolProxy"
+}

@@ -1,0 +1,12 @@
+{
+    "id": "p1",
+    "type": "com.elastisys.scale.predictors.rulebased.RuleBasedPredictor",
+    "state": "STARTED",
+    "metricStream": "average.cpu.utilization.stream",
+    "parameters": {          
+        "cooldownPeriod":  { "time": 180, "unit": "seconds" },
+        "scalingRules": [
+            { "condition": "EXACTLY", "threshold": "50", "period":  { "time": 180, "unit": "seconds" }, "resize": "1", "unit": "INSTANCES"} 
+        ]
+    }
+}

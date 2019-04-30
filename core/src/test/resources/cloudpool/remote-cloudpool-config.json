@@ -1,0 +1,17 @@
+{
+    "cloudPoolUrl": "https://some.host:443/",
+    "retries": {
+        "maxAttempts": 3,
+        "initialDelay": { "time": 2, "unit": "seconds" }
+    },
+    "basicCredentials": {
+        "username": "admin",
+        "password": "adminpassword"
+    },
+    "certificateCredentials": {
+        "keystoreType": "JKS",
+        "keystorePath": "src/test/resources/cloudpool/client-security/client_keystore.jks",
+        "keystorePassword": "jkspassword",
+        "keyPassword": "jkspassword"
+    }
+}

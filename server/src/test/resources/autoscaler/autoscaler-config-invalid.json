@@ -1,0 +1,60 @@
+{
+    "_comment": "missing monitoringSubsystem config",
+    "monitoringSubsystem": {
+    },
+    "alerter": {
+        "smtp": [
+            {
+                "subject": "[elastisys:scale] autoscaler alert",
+                "recipients": ["recipient1@destination.com", "recipient2@destination.com"],
+                "sender": "noreply@foo.com",
+                "severityFilter": "WARN|ERROR",
+                "smtpClientConfig": {
+                    "smtpHost": "smtp.server.com",
+                    "smtpPort": 485,
+                    "authentication": {"username": "user", "password": "secret"},
+                    "useSsl": true
+                }
+            }
+        ]
+    },
+    "metronome": {
+        "horizon": { "time": 1, "unit": "minutes" },
+        "interval": { "time": 60, "unit": "seconds"}
+    },
+    "predictionSubsystem": {
+        "predictors": [
+            {
+                "id": "p1",
+                "type": "com.elastisys.scale.predictors.adaptive.AdaptivePredictor",
+                "state": "STARTED",
+                "metricStream": "http.total.accesses.rate.stream",
+                "parameters": {
+                    "proactivePredictionsEnabled": true,
+                    "proactiveWarmupIterations": 15,
+                    "trendEstimationIterations": 15,
+                    "safetyMargin": 0.0
+                }
+            }
+        ],
+        "capacityMappings": [
+            { "metric": "cpu.user.percent", "amountPerComputeUnit": 100.0 },
+            { "metric": "http.total.accesses", "amountPerComputeUnit": 20.0 }
+        ],
+        "aggregator": {
+            "expression": "Math.max.apply(Math, input.predictions.map( function(p){return p.prediction;} ))"
+        },
+        "scalingPolicies": {
+            "machineDeltaTolerance": 0.1,
+            "overprovisioningGracePeriod": { "time": 5, "unit": "minutes" }
+        },
+        "capacityLimits": [
+            { "id": "baseline", "rank": 1, "schedule": "* * * * * ? *", "min": 2, "max": 4 },
+            { "id": "friday-heat", "rank": 1, "schedule": "* * 10-21 ? * FRI *", "min": 20, "max": 40 }
+        ]
+    },
+    "cloudPool": {
+        "cloudPoolHost": "cloudpool",
+        "cloudPoolPort": 443
+    }
+}

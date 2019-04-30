@@ -1,0 +1,7 @@
+{
+    "metricStreamer": {
+        "accessKeyId": "accessKey",
+        "secretAccessKey": "secretKey",  
+        "region": "us-east-1"
+    }
+}

@@ -1,0 +1,35 @@
+{
+    "monitoringSubsystem": {
+        "metricStreamers": [
+            {
+                "type": "OpenTsdbMetricStreamer",
+                "config": {
+                    "openTsdbHost": "opentsdb",
+                    "metricStreams": [
+                        {
+                            "id": "lbaas.connection.rate.stream",
+                            "metric": "lbaas.total.connections",
+                            "aggregator": "SUM"
+                        }
+                    ]
+                }
+            }
+        ],
+        "systemHistorian": {
+            "type": "OpenTsdbSystemHistorian",
+            "config": {
+                "openTsdbHost": "opentsdb"
+            }
+        }
+    },
+    "metronome": {
+        "horizon": { "time": 3, "unit": "minutes" },
+        "interval": { "time": 15, "unit": "seconds"}
+    },
+    "predictionSubsystem": {},
+    "cloudPool": {
+        "_comment": "missing cloudPoolPort",
+        "cloudPoolHost": "cloudpool"
+
+    }
+}

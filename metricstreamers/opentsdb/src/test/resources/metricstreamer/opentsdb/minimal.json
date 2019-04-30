@@ -1,0 +1,6 @@
+{
+    "metricStreamer": {
+	"openTsdbHost": "1.2.3.4",
+	"openTsdbPort": 4242
+    }
+}

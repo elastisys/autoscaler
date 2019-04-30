@@ -1,0 +1,28 @@
+{
+    "monitoringSubsystem": {
+        "metricStreamers": [
+            {
+                "type": "OpenTsdbMetricStreamer",
+                "config": {
+                    "openTsdbHost": "opentsdb",
+                    "metricStreams": [
+                        {
+                            "id": "lbaas.connection.rate.stream",
+                            "metric": "lbaas.total.connections",
+                            "aggregator": "SUM"
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "metronome": {
+        "horizon": { "time": 3, "unit": "minutes" },
+        "interval": { "time": 15, "unit": "seconds"}
+    },
+    "predictionSubsystem": {},
+    "cloudPool": {
+        "cloudPoolHost": "cloudpool",
+        "cloudPoolPort": 443
+    }
+}

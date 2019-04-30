@@ -1,0 +1,4 @@
+{
+    "checkInterval": {"time": 30, "unit": "seconds"},
+    "maxTolerableInactivity": {"time": 30, "unit": "minutes"}
+}

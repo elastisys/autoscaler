@@ -1,0 +1,127 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.elastisys</groupId>
+    <artifactId>autoscaler.root</artifactId>
+    <version>5.2.2-SNAPSHOT</version>
+  </parent>
+  <artifactId>autoscaler.server</artifactId>
+  <name>elastisys :: autoscaler :: server</name>
+  <description>The elastisys:scale autoscaler REST API server.</description>
+  <packaging>jar</packaging>
+
+  <dependencies>
+    <!-- Dependency needed to start the embedded server. -->
+    <dependency>
+      <groupId>com.elastisys.scale</groupId>
+      <artifactId>commons.server</artifactId>
+    </dependency>
+    <!-- Command-line parsing. -->
+    <dependency>
+      <groupId>com.elastisys.scale</groupId>
+      <artifactId>commons.cli</artifactId>
+    </dependency>
+    <!-- Access to MachinePool etc. -->
+    <dependency>
+      <groupId>com.elastisys.scale</groupId>
+      <artifactId>cloudpool.api</artifactId>
+    </dependency>
+    <!-- Common JAX-RS REST application classes. -->
+    <dependency>
+      <groupId>com.elastisys.scale</groupId>
+      <artifactId>commons.rest</artifactId>
+    </dependency>
+    <!-- Jersey and JAX-RS API -->
+    <dependency>
+      <groupId>org.glassfish.jersey.containers</groupId>
+      <artifactId>jersey-container-servlet-core</artifactId>
+    </dependency>
+    <!-- AutoScalerFactory Java API -->
+    <dependency>
+      <groupId>com.elastisys</groupId>
+      <artifactId>autoscaler.core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <!-- Logging -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+    </dependency>
+
+    <!-- Test dependencies -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Predictor implementations for testing -->
+    <dependency>
+      <groupId>com.elastisys</groupId>
+      <artifactId>autoscaler.predictors.rulebased</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.elastisys</groupId>
+      <artifactId>autoscaler.predictors.reactive</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- Metric streamer implementations for testing -->
+    <dependency>
+      <groupId>com.elastisys</groupId>
+      <artifactId>autoscaler.metricstreamers.opentsdb</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.elastisys</groupId>
+      <artifactId>autoscaler.metricstreamers.streamjoiner</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>    
+    <!-- System historian implementations for testing -->
+    <dependency>
+      <groupId>com.elastisys</groupId>
+      <artifactId>autoscaler.systemhistorians.opentsdb</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+
+  <build>
+    <resources>
+      <!-- No filtering on resource files, except for VERSION.txt, which we populate 
+        with the project version. -->
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
+        <excludes>
+          <exclude>VERSION.txt</exclude>
+        </excludes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>VERSION.txt</include>
+        </includes>
+      </resource>
+    </resources>
+  </build>
+
+</project>

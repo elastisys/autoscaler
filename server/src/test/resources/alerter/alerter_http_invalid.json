@@ -1,0 +1,46 @@
+{
+    "monitoringSubsystem": {
+        "metricStreamers": [
+            {
+                "type": "OpenTsdbMetricStreamer",
+                "config": {
+                    "openTsdbHost": "opentsdb",
+                    "metricStreams": [
+                        {
+                            "id": "lbaas.connection.rate.stream",
+                            "metric": "lbaas.total.connections",
+                            "aggregator": "SUM"
+                        }
+                    ]
+                }
+            }
+        ],
+        "systemHistorian": {
+            "type": "OpenTsdbSystemHistorian",
+            "config": {
+                "openTsdbHost": "opentsdb"
+            }
+        }
+    },
+    "alerter": {
+        "_comment": "wrong keys in http configuration",
+        "http": [
+            {
+                "destination_urls": ["https://some.host:443/"],
+                "severity_filter": "INFO|WARN|ERROR|FATAL",
+                "auth": {
+                    "basicCredentials": { "username": "user", "password": "secret" }
+                }
+            }
+        ]
+    },
+    "metronome": {
+        "horizon": { "time": 3, "unit": "minutes" },
+        "interval": { "time": 15, "unit": "seconds"}
+    },
+    "predictionSubsystem": {},
+    "cloudPool": {
+        "cloudPoolHost": "cloudpool",
+        "cloudPoolPort": 443
+    }
+}

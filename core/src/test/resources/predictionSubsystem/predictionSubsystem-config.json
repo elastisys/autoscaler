@@ -1,0 +1,47 @@
+{
+  "predictionSubsystem": {
+    "predictors": [
+      {
+        "id": "p1",
+        "type": "com.elastisys.scale.core.test.stubs.PredictorStub",
+        "state": "STARTED",
+        "metricStream": "http.total.accesses.rate.stream",
+        "parameters": {          
+          "metric.type": "delta",
+          "load.approximation.window.length": 60,
+          "trend.approximation.window.lookback": 15,
+          "consecutive.downtrend.overprovisioning.windows.before.scaledown": 3,
+          "proactive.warmup.windows": 15
+        }
+      },
+      {
+        "id": "p2",
+        "type": "com.elastisys.scale.core.test.stubs.PredictorStub",
+        "state": "STARTED",
+        "metricStream": "cpu.user.percent.stream",
+        "parameters": {          
+          "safety.margin": 20.0,
+          "aggregator": "average",
+          "window": 300,
+          "threshold": 80,
+          "scaleup.percent": 10
+        }      
+      }
+    ],
+    "capacityMappings": [ 
+      { "metric": "cpu.user.percent", "amountPerComputeUnit": 100.0 }, 
+      { "metric": "http.total.accesses", "amountPerComputeUnit": 250.0 }
+    ],
+    "aggregator": {
+      "expression": "Math.max(p1, p2);" 
+    },
+    "scalingPolicies": {
+      "machineDeltaTolerance": 0.1,
+      "overprovisioningGracePeriod": { "time": 5, "unit": "minutes" }
+    },    
+    "capacityLimits": [
+      { "id": "baseline", "rank": 1, "schedule": "* * * * * ? *", "min": 2, "max": 4 },
+      { "id": "friday-heat", "rank": 1, "schedule": "* * 10-21 ? * FRI *", "min": 20, "max": 40 }
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+{
+	"systemHistorian": {
+	  "log": "target/historian.log"
+	}
+}

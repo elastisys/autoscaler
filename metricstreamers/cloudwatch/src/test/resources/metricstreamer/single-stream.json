@@ -1,0 +1,21 @@
+{
+    "metricStreamer": {
+        "accessKeyId": "accessKey",
+        "secretAccessKey": "secretKey",
+        "region": "us-east-1",
+        "pollInterval": { "time": 30, "unit": "seconds" },
+        "metricStreams": [
+            {
+                "id": "autoscaling.group.cpu.utilization.stream",
+                "namespace": "AWS/EC2",
+                "metric": "CPUUtilization",
+                "dimensions": { "AutoScalingGroupName": "group1" },
+                "statistic": "Sum",
+                "period": { "time": 60, "unit": "seconds" },
+                "convertToRate": false,
+                "dataSettlingTime": { "time": 2, "unit": "minutes" },
+                "queryChunkSize": { "time": 1440, "unit": "minutes" }
+            }
+        ]
+    }
+}

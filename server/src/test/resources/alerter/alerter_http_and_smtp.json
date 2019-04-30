@@ -1,0 +1,56 @@
+{
+    "monitoringSubsystem": {
+        "metricStreamers": [
+            {
+                "type": "OpenTsdbMetricStreamer",
+                "config": {
+                    "openTsdbHost": "opentsdb",
+                    "metricStreams": [
+                        {
+                            "id": "lbaas.connection.rate.stream",
+                            "metric": "lbaas.total.connections",
+                            "aggregator": "SUM"
+                        }
+                    ]
+                }
+            }
+        ],
+        "systemHistorian": {
+            "type": "OpenTsdbSystemHistorian",
+            "config": {
+                "openTsdbHost": "opentsdb"
+            }
+        }
+    },
+    "alerter": {
+        "http": [
+            {
+                "destinationUrls": ["https://some.host:443/"],
+                "severityFilter": "INFO|WARN|ERROR"
+            }
+        ],
+        "smtp": [
+            {
+                "subject": "[elastisys:scale] autoscaling alert",
+                "recipients": ["recipient@destination.com"],
+                "sender": "noreply@foo.com",
+                "severityFilter": "INFO|WARN|ERROR",
+                "smtpClientConfig": {
+                    "smtpHost": "mailserver",
+                    "smtpPort": 25,
+                    "authentication": {"username": "sender", "password": "password"},
+                    "useSsl": false
+                }
+            }
+        ]
+    },
+    "metronome": {
+        "horizon": { "time": 3, "unit": "minutes" },
+        "interval": { "time": 15, "unit": "seconds"}
+    },
+    "predictionSubsystem": {},
+    "cloudPool": {
+        "cloudPoolHost": "cloudpool",
+        "cloudPoolPort": 443
+    }
+}

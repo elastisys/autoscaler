@@ -1,0 +1,24 @@
+{
+    "metricStreamer": {
+    	"auth": {
+            "keystoneUrl": "http://keystone.example.com:5000/v2.0",
+            "v2Credentials": {
+            	"tenantName": "tenant",
+            	"userName": "clouduser",
+            	"password": "cloudpass"
+            }
+        },
+        "region": "RegionOne",
+        "pollInterval": { "time": 30, "unit": "seconds" },
+        "metricStreams": [
+            {
+                "id": "connrate.stream",
+                "meter": "network.services.lb.total.connections.rate",
+                "downsampling": { "function": "Sum", "period": {"time": 1, "unit": "minutes"}},
+                "convertToRate": false,
+                "dataSettlingTime": { "time": 20, "unit": "seconds" },
+                "queryChunkSize": { "time": 7, "unit": "days" }
+            }
+        ]
+    }
+}

@@ -1,0 +1,53 @@
+{
+    "monitoringSubsystem": {
+        "metricStreamers": [
+            {
+                "type": "OpenTsdbMetricStreamer",
+                "config": {
+                    "openTsdbHost": "opentsdb",
+                    "metricStreams": [
+                        {
+                            "id": "lbaas.connection.rate.stream",
+                            "metric": "lbaas.total.connections",
+                            "aggregator": "SUM"
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "metronome": {
+        "horizon": { "time": 3, "unit": "minutes" },
+        "interval": { "time": 15, "unit": "seconds"}
+    },
+    "predictionSubsystem": {
+        "predictors": [
+            {
+                "id": "p1",
+                "type": "com.elastisys.autoscaler.predictors.reactive.ReactivePredictor",
+                "state": "STARTED",
+                "metricStream": "lbaas.connection.rate.stream",
+                "parameters": {}
+            }
+        ],
+        "capacityMappings": [
+            { "metric": "cpu.user.percent", "amountPerComputeUnit": 100.0 },
+            { "metric": "http.total.accesses", "amountPerComputeUnit": 250.0 }
+        ],
+        "aggregator": {
+            "expression": "Math.max.apply(Math, input.predictions.map( function(p){return p.prediction;} ))"
+        },
+        "scalingPolicies": {
+            "machineDeltaTolerance": 0.1,
+            "overprovisioningGracePeriod": { "time": 3, "unit": "minutes" }
+        },
+        "capacityLimits": [
+            { "id": "baseline", "rank": 1, "schedule": "* * * * * ? *", "min": 2, "max": 4 },
+            { "id": "friday-heat", "rank": 1, "schedule": "* * 10-21 ? * FRI *", "min": 20, "max": 40 }
+        ]
+    },
+    "cloudPool": {
+        "cloudPoolHost": "cloudpool",
+        "cloudPoolPort": 443
+    }
+}

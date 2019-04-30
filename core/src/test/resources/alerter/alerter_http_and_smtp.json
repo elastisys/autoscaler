@@ -1,0 +1,26 @@
+{
+  "alerter": {
+    "duplicateSuppression": { "time": 15, "unit": "minutes" },
+    "http": [
+        {
+            "destinationUrls": ["http://localhost:8000/endpoint"],
+            "severityFilter": "WARN|ERROR",
+            "auth": null
+        }
+    ],
+    "smtp": [
+        {
+            "subject": "[elastisys:scale] autoscaler alert",
+            "recipients": ["receiver@destination.com"],
+            "sender": "noreply@foo.com",
+            "severityFilter": "WARN|ERROR",
+            "smtpClientConfig": {
+                "smtpHost": "mail.server.com",
+                "smtpPort": 25,
+                "authentication": null,
+                "useSsl": false
+            }
+        }
+    ]
+  }
+}

@@ -1,0 +1,72 @@
+{
+    "fakeAddon": {
+        "foo": "bar"
+    },
+    "monitoringSubsystem": {
+        "metricStreamers": [
+            {
+                "type": "com.elastisys.autoscaler.core.monitoring.metricstreamer.commons.stubs.MetricStreamerStub",
+                "config": {
+                    "host": "11.22.33.44",
+                    "port": 4242,
+                    "metricStreams": [
+                        { "id": "http.total.accesses.rate.stream", "metric": "http.total.accesses", "aggregator": "SUM" },
+                        { "id": "cpu.user.percent.stream", "metric": "cpu.user.percent", "aggregator": "AVG" }
+                    ]
+                }
+            }
+        ]
+    },
+    "metronome": {
+        "horizon": { "time": 5, "unit": "minutes" },
+        "interval": { "time": 60, "unit": "seconds"}
+    },
+    "predictionSubsystem": {
+        "predictors": [
+            {
+                "id": "p1",
+                "type": "com.elastisys.autoscaler.core.prediction.impl.standard.stubs.PredictorStub",
+                "state": "STARTED",
+                "metricStream": "http.total.accesses.rate.stream",
+                "parameters": {
+                    "metric.type": "delta",
+                    "load.approximation.window.length": 60,
+                    "trend.approximation.window.lookback": 15,
+                    "consecutive.downtrend.overprovisioning.windows.before.scaledown": 3,
+                    "proactive.warmup.windows": 15
+                }
+            },
+            {
+                "id": "p2",
+                "type": "com.elastisys.autoscaler.core.prediction.impl.standard.stubs.PredictorStub",
+                "state": "STARTED",
+                "metricStream": "cpu.user.percent.stream",
+                "parameters": {
+                    "safety.margin": 20.0,
+                    "aggregator": "average",
+                    "window": 300,
+                    "threshold": 80,
+                    "scaleup.percent": 10
+                }
+            }
+        ],
+        "capacityMappings": [
+            { "metric": "cpu.user.percent", "amountPerComputeUnit": 100.0 },
+            { "metric": "http.total.accesses", "amountPerComputeUnit": 250.0 }
+        ],
+        "aggregator": {
+            "expression": "Math.max.apply(Math, input.predictions.map( function(p){return p.prediction;} ))"
+        },
+        "scalingPolicies": {
+            "machineDeltaTolerance": 0.1,
+            "overprovisioningGracePeriod": { "time": 3, "unit": "minutes" }
+        },
+        "capacityLimits": [
+            { "id": "baseline", "rank": 1, "schedule": "* * * * * ? *", "min": 2, "max": 4 },
+            { "id": "friday-heat", "rank": 1, "schedule": "* * 10-21 ? * FRI *", "min": 20, "max": 40 }
+        ]
+    },
+    "cloudPool": {
+        "cloudPoolUrl": "https://localhost:443"
+    }
+}

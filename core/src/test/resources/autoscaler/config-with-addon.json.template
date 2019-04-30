@@ -1,0 +1,76 @@
+{
+    "fakeAddon": {
+        "foo": "bar"
+    },
+    "monitoringSubsystem": {
+        "metricStreamers": [
+            {
+                "type": "com.elastisys.autoscaler.core.monitoring.metricstreamer.commons.stubs.MetricStreamerStub",
+                "config": {
+                    "host": "opentsdb",
+                    "port": 4242,
+                    "metricStreams": [
+                        { "id": "lbaas.connection.rate.stream", "metric": "lbaas.total.connections", "aggregator": "SUM" }
+                    ]
+                }
+            }
+        ],
+        "systemHistorian": {
+            "type": "com.elastisys.autoscaler.core.monitoring.systemhistorian.stubs.SystemHistorianStub",
+            "config": {
+                "host": "opentsdb",
+                "port": 4242
+            }
+        },
+        "metricStreamMonitor": {
+            "checkInterval": { "time": 60, "unit": "seconds" },
+            "maxTolerableInactivity": { "time": 1800, "unit": "seconds" }
+        }
+    },
+    "alerter": {
+        "duplicateSuppression": {"time": 20, "unit": "minutes"},
+        "http": [],
+        "smtp": []
+    },
+    "metronome": {
+        "horizon": 180.0,
+        "interval": 15.0,
+        "logOnly": false
+    },
+    "predictionSubsystem": {
+        "predictors": [
+            {
+                "id": "p1",
+                "type": "com.elastisys.autoscaler.core.prediction.impl.standard.stubs.PredictorStub",
+                "state": "STARTED",
+                "metricStream": "lbaas.connection.rate.stream",
+                "config": {
+                    "proactivePredictionsEnabled": false,
+                    "safetyMargin": 0.0,
+                    "proactiveWarmupIterations": 15,
+                    "trendEstimationIterations": 10
+                }
+            }
+        ],
+        "capacityMappings": [
+            {
+                "metric": "lbaas.total.connections",
+                "amountPerComputeUnit": 40
+            }
+        ],
+        "aggregator": {
+            "expression": "Math.max.apply(Math, input.predictions.map( function(p){return p.prediction;} ))"
+        },
+        "scalingPolicies": {
+            "machineDeltaTolerance": 0.0,
+            "overprovisioningGracePeriod": 180
+        },
+        "capacityLimits": [
+            { "id": "server_limits", "rank": 1,     "schedule": "* * * * * ? *", "min": 1, "max": 4 }
+        ]
+    },
+    "cloudPool": {
+        "cloudPoolHost": "cloudpool",
+        "cloudPoolPort": 443
+    }
+}

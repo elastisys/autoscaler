@@ -1,0 +1,4 @@
+{
+    "extSubsystem1": "some.ServiceImplClass",
+    "extSubsystem2": "some.ServiceImplClass2"    
+}

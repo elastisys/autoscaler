@@ -1,0 +1,32 @@
+{
+    "monitoringSubsystem": {
+        "metricStreamers": [
+            {
+                "type": "com.elastisys.autoscaler.core.monitoring.metricstreamer.commons.stubs.MetricStreamerStub",
+                "config": {
+                    "host": "opentsdb",
+                    "port": 4242,
+                    "pollIntervalInSeconds": 10,
+                    "metricStreams": [
+                        { "id": "lbaas.connection.rate.stream", "metric": "lbaas.total.connections", "aggregator": "AVG" }
+                    ]
+                }
+            }
+        ],
+        "systemHistorian": {
+            "type": "com.elastisys.autoscaler.core.monitoring.systemhistorian.stubs.SystemHistorianStub",
+            "config": {
+                "host": "opentsdb",
+                "port": 4242
+            }
+        }
+    },
+    "metronome": {
+        "horizon": { "time": 3, "unit": "minutes" },
+        "interval": { "time": 15, "unit": "seconds"}
+    },
+    "predictionSubsystem": {},
+    "cloudPool": {
+        "cloudPoolUrl": "https://cloudpool/"
+    }
+}

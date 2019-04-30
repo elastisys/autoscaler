@@ -1,0 +1,17 @@
+{
+    "results": [
+        {
+            "series": [
+                {
+                    "name": "cpu",
+                    "columns": [
+                        "time",
+                        "value"
+                    ],
+                    "values": [
+                    ]
+                }
+            ]
+        }
+    ]
+}

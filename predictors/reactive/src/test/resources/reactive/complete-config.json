@@ -1,0 +1,9 @@
+{
+    "id": "p1",
+    "type": "com.elastisys.autoscaler.predictors.reactive.ReactivePredictor",
+    "state": "STARTED",
+    "metricStream": "http.total.accesses.rate.stream",
+    "parameters": {
+        "safetyMargin": 10.0
+    }
+}

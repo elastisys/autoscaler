@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <groupId>com.elastisys</groupId>
+    <artifactId>elastisys-pom-public</artifactId>
+    <version>1.0.0</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>autoscaler.root</artifactId>
+  <version>5.2.2-SNAPSHOT</version>
+  <name>elastisys :: autoscaler :: root</name>
+  <description>The core elastisys:scale autoscaler server.</description>
+  <packaging>pom</packaging>
+  <inceptionYear>2011</inceptionYear>
+
+  <modules>
+    <module>core</module>
+    <module>metricstreamers</module>
+    <module>systemhistorians</module>
+    <module>predictors</module>
+    <module>server</module>
+    <module>simulation</module>
+    <module>distro</module>
+  </modules>
+
+  <!-- Location of Git repository. Used to tag releases. -->
+  <scm>
+    <developerConnection>scm:git:https://github.com/elastisys/autoscaler.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
+  <properties>
+    <!-- scale.commons version to use -->
+    <commons.version>2.3.2-SNAPSHOT</commons.version>
+    <!-- scale.cloudpool version to use -->
+    <cloudpool.version>5.2.2-SNAPSHOT</cloudpool.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- Dependency (version) management declarations are imported from the commons
+        project. -->
+      <dependency>
+        <groupId>com.elastisys.scale</groupId>
+        <artifactId>commons.root</artifactId>
+        <version>${commons.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+
+      <dependency>
+        <groupId>com.elastisys.scale</groupId>
+        <artifactId>commons.net</artifactId>
+        <version>${commons.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.elastisys.scale</groupId>
+        <artifactId>commons.json</artifactId>
+        <version>${commons.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.elastisys.scale</groupId>
+        <artifactId>commons.rest</artifactId>
+        <version>${commons.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.elastisys.scale</groupId>
+        <artifactId>commons.server</artifactId>
+        <version>${commons.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.elastisys.scale</groupId>
+        <artifactId>commons.util</artifactId>
+        <version>${commons.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.elastisys.scale</groupId>
+        <artifactId>commons.openstack</artifactId>
+        <version>${commons.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.elastisys.scale</groupId>
+        <artifactId>commons.cli</artifactId>
+        <version>${commons.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.elastisys.scale</groupId>
+        <artifactId>cloudpool.api</artifactId>
+        <version>${cloudpool.version}</version>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+
+  <issueManagement>
+    <system>GitHub Issue Management</system>
+    <url>https://github.com/elastisys/autoscaler/issues</url>
+  </issueManagement>
+
+  <developers>
+    <developer>
+      <id>peterg</id>
+      <name>Peter Gardfjäll</name>
+      <email>peter.gardfjall@elastisys.com</email>
+      <url>https://elastisys.com/</url>
+      <organization>Elastisys AB</organization>
+      <organizationUrl>https://elastisys.com/</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>+1</timezone>
+    </developer>
+    <developer>
+      <id>simonklb</id>
+      <name>Simon Kollberg</name>
+      <email>simon.kollberg@elastisys.com</email>
+      <url>https://elastisys.com/</url>
+      <organization>Elastisys AB</organization>
+      <organizationUrl>https://elastisys.com/</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>+1</timezone>
+    </developer>
+  </developers>
+
+  <build>
+    <plugins>
+      <!-- Always include dependency licenses in target/third-party-licenses-->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

@@ -1,0 +1,113 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.elastisys</groupId>
+    <artifactId>autoscaler.root</artifactId>
+    <version>5.2.2-SNAPSHOT</version>
+  </parent>
+  <artifactId>autoscaler.simulation</artifactId>
+  <name>elastisys :: autoscaler :: simulation</name>
+  <description>autoscaler simulation</description>
+  <packaging>jar</packaging>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.elastisys</groupId>
+      <artifactId>autoscaler.core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <!-- to control current time in simulations -->
+    <dependency>
+      <groupId>com.elastisys.scale</groupId>
+      <artifactId>commons.util</artifactId>
+    </dependency>
+    <!-- access to MachinePool etc. -->
+    <dependency>
+      <groupId>com.elastisys.scale</groupId>
+      <artifactId>cloudpool.api</artifactId>
+    </dependency>
+    
+    <!-- InfluxDB adapters -->
+    <dependency>
+      <groupId>com.elastisys</groupId>
+      <artifactId>autoscaler.metricstreamers.influxdb</artifactId>
+      <version>${project.version}</version>
+    </dependency>    
+    <dependency>
+      <groupId>com.elastisys</groupId>
+      <artifactId>autoscaler.systemhistorians.influxdb</artifactId>
+      <version>${project.version}</version>
+    </dependency>    
+        
+    <!-- Command-line parsing library. -->
+    <dependency>
+      <groupId>com.elastisys.scale</groupId>
+      <artifactId>commons.cli</artifactId>
+    </dependency>
+    
+    <!-- Logging -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+    </dependency>
+    
+    <!-- Test dependencies -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  
+  <build>
+    <plugins>
+
+      <!-- Build a standalone executable jar file that embeds all classpath dependencies. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>2.2</version>
+        <configuration>
+          <transformers>
+            <!-- Make jar file executable (add Main-Class header to jar manifest) -->
+            <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+              <mainClass>com.elastisys.autoscaler.simulation.SimulatorMain</mainClass>
+            </transformer>
+          </transformers>
+          <!-- Make shaded jar file the main artifact output by the build. -->
+          <shadedArtifactAttached>false</shadedArtifactAttached>
+          <createDependencyReducedPom>false</createDependencyReducedPom>
+          <filters>
+            <filter>
+              <artifact>*:*</artifact>
+              <excludes>
+                <exclude>META-INF/*.SF</exclude>
+                <exclude>META-INF/*.DSA</exclude>
+                <exclude>META-INF/*.RSA</exclude>
+              </excludes>
+            </filter>
+          </filters>        
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      
+    </plugins>      
+  </build>
+  
+</project>

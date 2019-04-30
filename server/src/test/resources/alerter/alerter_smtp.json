@@ -1,0 +1,42 @@
+{
+    "monitoringSubsystem": {
+        "metricStreamers": [
+            {
+                "type": "OpenTsdbMetricStreamer",
+                "config": {
+                    "openTsdbHost": "opentsdb",
+                    "metricStreams": [
+                        {
+                            "id": "lbaas.connection.rate.stream",
+                            "metric": "lbaas.total.connections",
+                            "aggregator": "SUM"
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "alerter": {
+        "smtp": [
+            {
+                "subject": "[elastisys:scale] autoscaler alert",
+                "recipients": ["receiver@destination.com"],
+                "sender": "noreply@foo.com",
+                "severityFilter": "WARN|ERROR",
+                "smtpClientConfig": {
+                    "smtpHost": "mail.server.com",
+                    "smtpPort": 25
+                }
+            }
+        ]
+    },
+    "metronome": {
+        "horizon": { "time": 3, "unit": "minutes" },
+        "interval": { "time": 15, "unit": "seconds"}
+    },
+    "predictionSubsystem": {},
+    "cloudPool": {
+        "cloudPoolHost": "cloudpool",
+        "cloudPoolPort": 443
+    }
+}

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+  
+  <!-- Log output directory is specified by system property/environment 
+       variable 'LOG_DIR'. If unspecified, a directory is used.-->
+  <variable name="logdir" value="${LOG_DIR:-/tmp/elastisys/logs/autoscaler}"/>
+  <!-- Logging level to set for stdout -->
+  <variable name="stdout_log_level" value="${STDOUT_LOG_LEVEL:-INFO}"/>
+  
+  <!-- Appender that produces separate log files for each autoscaler instance.  -->
+  <appender name="SIFT" class="ch.qos.logback.classic.sift.SiftingAppender">
+    <discriminator>
+      <key>autoScalerId</key>
+      <!-- log entries without autoScalerId are assumed to come from REST endpoint/factory threads -->
+      <defaultValue>factory</defaultValue>
+    </discriminator>
+    <sift>
+      <appender name="FILE-${autoScalerId}" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logdir}/${autoScalerId}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+          <!-- daily rollover -->
+          <fileNamePattern>${logdir}/${autoScalerId}.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+          <!-- keep 7 days' worth of history -->
+          <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+          <pattern>%date{ISO8601} [%thread] %-5level [%class{0}:%method:%line] - %msg%n</pattern>
+        </encoder>
+
+        <append>true</append>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+          <pattern>%date{ISO8601} [%thread] %-5level [%class{0}:%method:%line] - %msg%n</pattern>
+        </layout>
+      </appender>
+    </sift>
+  </appender>  
+
+  <!-- captures the entire log -->
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${logdir}/full.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- daily rollover -->
+      <fileNamePattern>${logdir}/full.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+      <!-- keep 7 days' worth of history -->
+      <maxHistory>7</maxHistory>
+    </rollingPolicy>
+    <encoder>      
+      <pattern>%date{ISO8601} [%thread] %-5level [%class{0}:%method:%line] - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- stdout output -->
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">   
+    <target>System.out</target>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>${stdout_log_level}</level>
+    </filter>
+    <encoder>
+      <pattern>%date{ISO8601} [%thread] %-5level [%class{0}:%method:%line] - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <root>
+    <level value="ERROR" />
+    <appender-ref ref="SIFT" />
+    <appender-ref ref="FILE" />
+    <appender-ref ref="STDOUT" />
+  </root>
+  <logger name="com.elastisys">
+    <level value="debug" />
+  </logger>
+  <!-- Logs all HTTP content (headers, parameters, content, etc) for -->
+  <!-- all requests and responses. Very verbose! -->
+  <logger name="httpclient.wire">
+    <level value="warn" />
+  </logger>
+
+</configuration>

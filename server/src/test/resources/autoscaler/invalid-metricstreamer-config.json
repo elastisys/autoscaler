@@ -1,0 +1,59 @@
+{
+    "_comment": "metric streamer config is invalid: tags are supposed to be string keys and *list of string* values",
+    "monitoringSubsystem": {
+        "metricStreamers": [
+            {
+                "type": "OpenTsdbMetricStreamer",
+                "config": {
+                    "openTsdbHost": "opentsdb",
+                    "metricStreams": [
+                        { "id": "lbaas.connection.rate.stream",
+                          "metric": "lbaas.total.connections",
+                          "aggregator": "SUM",
+                          "convertToRate": true,
+                          "tags": { "id": "5caa48fb-55cd-4bd8-b08f-38f7a23d8026", "zone": "Sto2" }
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "metronome": {
+        "horizon": { "time": 1, "unit": "minutes" },
+        "interval": { "time": 60, "unit": "seconds"}
+    },
+    "predictionSubsystem": {
+        "predictors": [
+            {
+                "id": "p1",
+                "type": "com.elastisys.scale.predictors.adaptive.AdaptivePredictor",
+                "state": "STARTED",
+                "metricStream": "lbaas.connection.rate.stream",
+                "parameters": {
+                    "proactivePredictionsEnabled": true,
+                    "proactiveWarmupIterations": 15,
+                    "trendEstimationIterations": 15,
+                    "safetyMargin": 0.0
+                }
+            }
+        ],
+        "capacityMappings": [
+            { "metric": "lbaas.total.connections", "amountPerComputeUnit": 20.0 }
+        ],
+        "aggregator": {
+            "expression": "Math.max.apply(Math, input.predictions.map( function(p){return p.prediction;} ))"
+        },
+        "scalingPolicies": {
+            "machineDeltaTolerance": 0.1,
+            "overprovisioningGracePeriod": { "time": 3, "unit": "minutes" }
+        },
+        "capacityLimits": [
+            { "id": "baseline", "rank": 1, "schedule": "* * * * * ? *", "min": 2, "max": 4 },
+            { "id": "friday-heat", "rank": 1, "schedule": "* * 10-21 ? * FRI *", "min": 20, "max": 40 }
+        ]
+    },
+    "cloudPool": {
+        "cloudPoolHost": "cloudpool",
+        "cloudPoolPort": 443
+    }
+}

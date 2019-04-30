@@ -1,0 +1,14 @@
+{
+  "alerter": {
+    "smtp": [
+        {
+            "subject": "[elastisys:scale] autoscaler alert",
+            "recipients": ["receiver@destination.com"],
+            "sender": "noreply@foo.com",
+            "smtpClientConfig": {
+                "smtpHost": "mail.server.com"
+            }
+        }
+    ]
+  }
+}

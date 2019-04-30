@@ -1,0 +1,25 @@
+# backup files
+*~
+*.bak
+
+# log files
+*.log
+
+# build output directories
+target
+**/target
+
+# Eclipse
+.settings
+.project
+.classpath
+**/*~
+**/*.log
+**/.settings
+**/.project
+**/.classpath
+
+# IntelliJ
+.idea/
+*.iml
+

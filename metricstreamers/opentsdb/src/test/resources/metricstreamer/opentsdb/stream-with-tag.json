@@ -1,0 +1,17 @@
+{
+    "metricStreamer": {
+	"openTsdbHost": "1.2.3.4",
+	"openTsdbPort": 4242,
+	"pollInterval": { "time": 5, "unit": "seconds" },
+	"metricStreams": [		
+	    { 
+		"id": "haproxy.session.rate.stream", 
+		"metric": "haproxy.session_rate", 
+		"aggregator": "SUM", 
+		"convertToRate": false,
+                "tags": {"source": ["BACKEND"]},         
+		"dataSettlingTime": { "time": 30, "unit": "seconds"}
+	    }
+	]
+    }
+}

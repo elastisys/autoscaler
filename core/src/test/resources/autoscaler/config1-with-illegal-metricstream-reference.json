@@ -1,0 +1,62 @@
+{
+    "monitoringSubsystem": {
+        "metricStreamers": [
+            {
+                "type": "com.elastisys.autoscaler.core.monitoring.metricstreamer.commons.stubs.MetricStreamerStub",
+                "config": {
+                    "host": "opentsdb",
+                    "port": 4242,
+                    "metricStreams": [
+                        { "id": "lbaas.active.connections.stream", "metric": "lbaas.active.connections", "aggregator": "AVG" }
+                    ]
+                }
+            }
+        ],
+        "systemHistorian": {
+            "type": "com.elastisys.autoscaler.core.monitoring.systemhistorian.stubs.SystemHistorianStub",
+            "config": {
+                "host": "opentsdb",
+                "port": 4242
+            }
+        }
+    },
+    "metronome": {
+        "horizon": { "time": 3, "unit": "minutes" },
+        "interval": { "time": 15, "unit": "seconds"}
+    },
+    "predictionSubsystem": {
+        "predictors": [
+            {
+                "id": "p1",
+                "type": "com.elastisys.autoscaler.core.prediction.impl.standard.stubs.PredictorStub",
+                "state": "STARTED",
+                "metricStream": "lbaas.connection.rate.stream",
+                "parameters": {
+                    "proactivePredictionsEnabled": false,
+                    "safetyMargin": 0.0,
+                    "proactiveWarmupIterations": 15,
+                    "trendEstimationIterations": 10
+                }
+            }
+        ],
+        "capacityMappings": [
+            {
+                "metric": "lbaas.total.connections",
+                "amountPerComputeUnit": 40
+            }
+        ],
+        "aggregator": {
+            "expression": "Math.max.apply(Math, input.predictions.map( function(p){return p.prediction;} ))"
+        },
+        "scalingPolicies": {
+            "machineDeltaTolerance": 0.0,
+            "overprovisioningGracePeriod": { "time": 3, "unit": "minutes" }
+        },
+        "capacityLimits": [
+            { "id": "server_limits", "rank": 1,     "schedule": "* * * * * ? *", "min": 1, "max": 4 }
+        ]
+    },
+    "cloudPool": {
+        "cloudPoolUrl": "http://cloudpool:80/"
+    }
+}

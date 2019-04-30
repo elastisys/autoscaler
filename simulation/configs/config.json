@@ -1,0 +1,66 @@
+{
+    "monitoringSubsystem": {
+        "metricStreamers": [
+            {
+                "type": "InfluxdbMetricStreamer",
+                "config": {
+                    "host": "localhost",
+                    "port": 8086,
+                    "pollInterval": { "time": 10, "unit": "seconds" },
+                    "metricStreams": [
+                        {
+                            "id": "req.count.stream",
+                            "metricName": "req.count",
+                            "database": "metricsdb",
+                            "query": {
+                                "select": "non_negative_derivative(max(value),1s)",
+                                "from": "reqcount",
+                                "groupBy": "time(1s) fill(none)"
+                            },
+                            "dataSettlingTime":  null
+                        }
+                    ]
+                }
+            }
+        ],
+        "systemHistorian": {
+            "type": "InfluxdbSystemHistorian",
+            "config": {
+                "host": "localhost",
+                "port": 8086,
+                "database": "metricsdb",
+                "reportingInterval": { "time": 10, "unit": "seconds" }
+            }
+        },
+        "metricStreamMonitor": {
+            "checkInterval": { "time": 1, "unit": "minutes" },
+            "maxTolerableInactivity": { "time": 30, "unit": "minutes" }
+        }
+    },
+    "metronome": {
+        "horizon": { "time": 3, "unit": "minutes" },
+        "interval": { "time": 1, "unit": "minutes" }
+    },
+    "predictionSubsystem": {
+        "predictors": [
+            {
+                "id": "p1",
+                "type": "com.elastisys.autoscaler.predictors.reactive.ReactivePredictor",
+                "metricStream": "req.count.stream",
+                "parameters": {
+                    "safetyMargin": 20.0
+                }
+            }
+        ],
+        "capacityMappings": [
+            { "metric": "req.count", "amountPerComputeUnit": 400.0 }
+        ],
+        "scalingPolicies": {
+            "overprovisioningGracePeriod": { "time": 5, "unit": "minutes" }
+        },
+        "capacityLimits": [
+            { "id": "baseline", "rank": 1, "schedule": "* * * * * ? *", "min": 0, "max": 10000 }
+        ]
+    },
+    "cloudPool": {}
+}

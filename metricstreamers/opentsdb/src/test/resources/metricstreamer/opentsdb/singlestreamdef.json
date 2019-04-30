@@ -1,0 +1,18 @@
+{
+    "metricStreamer": {
+	"openTsdbHost": "1.2.3.4",
+	"openTsdbPort": 4242,
+	"pollInterval": { "time": 5, "unit": "seconds" },
+	"metricStreams": [
+	    {
+		"id": "http.total.accesses.rate.stream",
+		"metric": "http.total.accesses",
+		"aggregator": "SUM",
+		"convertToRate": true,
+		"downsampling": { "function": "MEAN", "interval": { "time": 5, "unit": "minutes"}  },
+		"tags": { "host": ["*"] },
+		"dataSettlingTime": { "time": 30, "unit": "seconds"}
+	    }
+	]
+    }
+}

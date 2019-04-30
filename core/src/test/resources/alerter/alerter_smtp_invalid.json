@@ -1,0 +1,19 @@
+{
+  "alerter": {
+    "_comment": "wrong field names (underscores rather than camel case)",
+    "smtp": [
+        {
+            "subject": "[elastisys:scale] autoscaler alert",
+            "recipients": ["receiver@destination.com"],
+            "sender": "noreply@foo.com",
+            "severity_filter": "WARN|ERROR",
+            "smtp_client_config": {
+                "smtpHost": "mail.server.com",
+                "smtpPort": 25,
+                "authentication": null,
+                "useSsl": false
+            }
+        }
+    ]
+  }
+}

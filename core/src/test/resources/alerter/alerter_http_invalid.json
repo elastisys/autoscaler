@@ -1,0 +1,14 @@
+{ 
+  "alerter": {
+    "_comment": "wrong keys in http configuration",
+    "http": [
+        {       
+            "destination_urls": ["https://some.host:443/"],
+            "severity_filter": "INFO|WARN|ERROR|FATAL", 
+            "auth": {
+                "basicCredentials": { "username": "user", "password": "secret" }
+            }
+        }
+    ]
+  }
+}

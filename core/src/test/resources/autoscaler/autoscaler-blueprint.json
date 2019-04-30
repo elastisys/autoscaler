@@ -1,0 +1,8 @@
+{
+    "id": "autoscaler1",
+    "monitoringSubsystem": "com.elastisys.autoscaler.core.monitoring.impl.standard.StandardMonitoringSubsystem",
+    "alerter": "com.elastisys.autoscaler.core.alerter.impl.standard.StandardAlerter",
+    "metronome": "com.elastisys.autoscaler.core.metronome.impl.standard.StandardMetronome",
+    "predictionSubsystem": "com.elastisys.autoscaler.core.prediction.impl.standard.StandardPredictionSubsystem",
+    "cloudPool": "com.elastisys.autoscaler.core.cloudpool.impl.StandardCloudPoolProxy"
+}

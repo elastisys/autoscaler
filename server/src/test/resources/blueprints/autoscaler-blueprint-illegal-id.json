@@ -1,0 +1,4 @@
+{
+  "id": "autoscaler.1",
+  "cloudPool": "com.elastisys.autoscaler.server.restapi.stubs.CloudPoolProxyStub"  
+}

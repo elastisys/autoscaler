@@ -19,4 +19,7 @@ RUN mkdir -p /var/log/elastisys && \
     mkdir -p /var/lib/elastisys/ && \
     chmod +x /opt/elastisys/autoscaler/start.sh
 
+HEALTHCHECK --interval=10s --timeout=2s \
+    CMD nc -z localhost ${HTTPS_PORT:-${HTTP_PORT}} || exit 1
+
 CMD ["/opt/elastisys/autoscaler/start.sh"]

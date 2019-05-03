@@ -2,10 +2,6 @@
 
 set -e
 
-# detect java location
-JAVA_HOME="$(readlink -f /usr/bin/java | sed "s:/jre/bin/java::")"
-java="${JAVA_HOME}/bin/java"
-
 # Logging
 LOG_CONFIG=${LOG_CONFIG:-/etc/elastisys/autoscaler/logback.xml}
 JUL_CONFIG=${JUL_CONFIG:-/etc/elastisys/autoscaler/logging.properties}
@@ -85,4 +81,4 @@ JAVA_OPTS="${JAVA_OPTS} -DLOG_DIR=${LOG_DIR}"
 #
 # Start
 #
-${java} ${JVM_OPTS} ${JAVA_OPTS} -jar /opt/elastisys/autoscaler/autoscaler.server.jar ${RUNTIME_OPTS} ${SERVER_OPTS} ${AUTH_OPTS}
+java ${JVM_OPTS} ${JAVA_OPTS} -jar /opt/elastisys/autoscaler/autoscaler.server.jar ${RUNTIME_OPTS} ${SERVER_OPTS} ${AUTH_OPTS}

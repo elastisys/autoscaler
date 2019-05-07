@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.elastisys</groupId>
     <artifactId>elastisys-pom-public</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.3</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>autoscaler.root</artifactId>
@@ -31,9 +31,9 @@
 
   <properties>
     <!-- scale.commons version to use -->
-    <commons.version>2.3.2-SNAPSHOT</commons.version>
+    <commons.version>2.3.4</commons.version>
     <!-- scale.cloudpool version to use -->
-    <cloudpool.version>5.2.2-SNAPSHOT</cloudpool.version>
+    <cloudpool.version>5.2.3</cloudpool.version>
   </properties>
 
   <dependencyManagement>

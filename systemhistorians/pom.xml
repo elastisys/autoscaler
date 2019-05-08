@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.elastisys</groupId>
     <artifactId>autoscaler.root</artifactId>
-    <version>5.2.2</version>
+    <version>5.2.3-SNAPSHOT</version>
   </parent>
   <artifactId>autoscaler.systemhistorians</artifactId>
   <name>elastisys :: autoscaler :: system historians</name>

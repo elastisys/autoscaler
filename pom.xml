@@ -7,7 +7,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>autoscaler.root</artifactId>
-  <version>5.2.2</version>
+  <version>5.2.3-SNAPSHOT</version>
   <name>elastisys :: autoscaler :: root</name>
   <description>The core elastisys:scale autoscaler server.</description>
   <packaging>pom</packaging>
@@ -26,7 +26,7 @@
   <!-- Location of Git repository. Used to tag releases. -->
   <scm>
     <developerConnection>scm:git:git@github.com:elastisys/autoscaler.git</developerConnection>
-    <tag>5.2.2</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <properties>

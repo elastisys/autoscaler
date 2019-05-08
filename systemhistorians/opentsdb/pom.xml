@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.elastisys</groupId>
     <artifactId>autoscaler.systemhistorians</artifactId>
-    <version>5.2.2-SNAPSHOT</version>
+    <version>5.2.2</version>
   </parent>
   <artifactId>autoscaler.systemhistorians.opentsdb</artifactId>
   <name>elastisys :: autoscaler :: system historians :: opentsdb</name>

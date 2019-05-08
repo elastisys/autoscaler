@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.elastisys</groupId>
     <artifactId>autoscaler.root</artifactId>
-    <version>5.2.2-SNAPSHOT</version>
+    <version>5.2.2</version>
   </parent>
   <artifactId>autoscaler.simulation</artifactId>
   <name>elastisys :: autoscaler :: simulation</name>

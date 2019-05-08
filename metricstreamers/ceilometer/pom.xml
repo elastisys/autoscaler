@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.elastisys</groupId>
     <artifactId>autoscaler.metricstreamers</artifactId>
-    <version>5.2.2-SNAPSHOT</version>
+    <version>5.2.2</version>
   </parent>
   <artifactId>autoscaler.metricstreamers.ceilometer</artifactId>
   <name>elastisys :: autoscaler :: metric streamers :: ceilometer</name>

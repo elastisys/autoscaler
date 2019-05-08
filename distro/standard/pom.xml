@@ -94,6 +94,23 @@
         </configuration>
       </plugin>
 
+     <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.1.0</version>
+        <configuration>
+          <includeDependencySources>true</includeDependencySources>
+        </configuration>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+     </plugin>
+
       <!-- Builds a Docker image -->
       <plugin>
         <groupId>com.spotify</groupId>
